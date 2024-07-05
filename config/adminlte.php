@@ -2,37 +2,39 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Title
-    |--------------------------------------------------------------------------
-    |
-    | Here you can change the default title of your admin panel.
-    |
-    | For detailed instructions you can look the title section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
-    |
-    */
+    'title' => 'Customer Complaint Portal',
 
-    'title' => 'AdminLTE 3',
-    'title_prefix' => '',
-    'title_postfix' => '',
+    'logo' => '<b>Complaint Portal</b> ',
+    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo_img_alt' => 'AdminLTE',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Favicon
-    |--------------------------------------------------------------------------
-    |
-    | Here you can activate the favicon.
-    |
-    | For detailed instructions you can look the favicon section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
-    |
-    */
+    'layout_topnav' => true,
 
-    'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'usermenu_enabled' => true,
 
+    'menu' => [
+        [
+            'text' => 'Branches',
+            'url'  => 'branches',
+            'icon' => 'fas fa-building',
+        ],
+        [
+            'text' => 'Managers',
+            'url'  => 'managers',
+            'icon' => 'fas fa-user-tie',
+        ],
+        [
+            'text' => 'Customers',
+            'url'  => 'customers',
+            'icon' => 'fas fa-users',
+        ],
+        [
+            'text' => 'Complaints',
+            'url'  => 'complaints',
+            'icon' => 'fas fa-exclamation-triangle',
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Google Fonts
@@ -51,24 +53,6 @@ return [
         'allowed' => true,
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Admin Panel Logo
-    |--------------------------------------------------------------------------
-    |
-    | Here you can change the logo of your admin panel.
-    |
-    | For detailed instructions you can look the logo section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
-    |
-    */
-
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
-    'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -256,14 +240,14 @@ return [
     |
     */
 
-    'use_route_url' => false,
+    // 'use_route_url' => false,
     'dashboard_url' => 'home',
-    'logout_url' => 'logout',
-    'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
-    'profile_url' => false,
+    // 'logout_url' => 'logout',
+    // 'login_url' => 'login',
+    // 'register_url' => 'register',
+    // 'password_reset_url' => 'password/reset',
+    // 'password_email_url' => 'password/email',
+    // 'profile_url' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -293,101 +277,101 @@ return [
     |
     */
 
-    'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+    // 'menu' => [
+    //     // Navbar items:
+    //     [
+    //         'type' => 'navbar-search',
+    //         'text' => 'search',
+    //         'topnav_right' => true,
+    //     ],
+    //     [
+    //         'type' => 'fullscreen-widget',
+    //         'topnav_right' => true,
+    //     ],
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],
-    ],
+    //     // Sidebar items:
+    //     [
+    //         'type' => 'sidebar-menu-search',
+    //         'text' => 'search',
+    //     ],
+    //     [
+    //         'text' => 'blog',
+    //         'url' => 'admin/blog',
+    //         'can' => 'manage-blog',
+    //     ],
+    //     [
+    //         'text' => 'pages',
+    //         'url' => 'admin/pages',
+    //         'icon' => 'far fa-fw fa-file',
+    //         'label' => 4,
+    //         'label_color' => 'success',
+    //     ],
+    //     ['header' => 'account_settings'],
+    //     [
+    //         'text' => 'profile',
+    //         'url' => 'admin/settings',
+    //         'icon' => 'fas fa-fw fa-user',
+    //     ],
+    //     [
+    //         'text' => 'change_password',
+    //         'url' => 'admin/settings',
+    //         'icon' => 'fas fa-fw fa-lock',
+    //     ],
+    //     [
+    //         'text' => 'multilevel',
+    //         'icon' => 'fas fa-fw fa-share',
+    //         'submenu' => [
+    //             [
+    //                 'text' => 'level_one',
+    //                 'url' => '#',
+    //             ],
+    //             [
+    //                 'text' => 'level_one',
+    //                 'url' => '#',
+    //                 'submenu' => [
+    //                     [
+    //                         'text' => 'level_two',
+    //                         'url' => '#',
+    //                     ],
+    //                     [
+    //                         'text' => 'level_two',
+    //                         'url' => '#',
+    //                         'submenu' => [
+    //                             [
+    //                                 'text' => 'level_three',
+    //                                 'url' => '#',
+    //                             ],
+    //                             [
+    //                                 'text' => 'level_three',
+    //                                 'url' => '#',
+    //                             ],
+    //                         ],
+    //                     ],
+    //                 ],
+    //             ],
+    //             [
+    //                 'text' => 'level_one',
+    //                 'url' => '#',
+    //             ],
+    //         ],
+    //     ],
+    //     ['header' => 'labels'],
+    //     [
+    //         'text' => 'important',
+    //         'icon_color' => 'red',
+    //         'url' => '#',
+    //     ],
+    //     [
+    //         'text' => 'warning',
+    //         'icon_color' => 'yellow',
+    //         'url' => '#',
+    //     ],
+    //     [
+    //         'text' => 'information',
+    //         'icon_color' => 'cyan',
+    //         'url' => '#',
+    //     ],
+    // ],
 
     /*
     |--------------------------------------------------------------------------
