@@ -18,7 +18,6 @@
             <tr>
                 <th>Name</th>
                 <th>Location</th>
-                <th>Number of Managers</th>
                 <th>Number of Customers</th>
                 <th>Number of Complaints</th>
                 <th>Actions</th>
@@ -29,9 +28,8 @@
             <tr>
                 <td>{{ $branch->name }}</td>
                 <td>{{ $branch->address }}, {{ $branch->city }}, {{ $branch->state }}</td>
-                <td>{{ $branch->managers->count() }}</td>
-                <td>{{ $branch->customers_count }}</td>
-                <td>{{ $branch->complaints_count }}</td>
+                <td>{{ $branch->customers->count() }}</td>
+                <td>{{ $branch->complaints->count() }}</td>
                 <td>
                     <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('branches.destroy', $branch->id) }}" method="POST" style="display:inline-block;">

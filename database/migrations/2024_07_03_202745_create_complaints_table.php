@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('message');
             $table->boolean('reviewed')->default(false);
-            $table->foreignId('branch_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('branch_id');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

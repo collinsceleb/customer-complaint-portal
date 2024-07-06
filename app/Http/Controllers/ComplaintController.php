@@ -34,16 +34,22 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_id' => 'required|exists:customers, id',
-            'branch_id' => 'required|exists:branches, id',
-            'reviewed' => 'required|boolean',
+            'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'title' => 'required|string|max:255'
+            'customer_id' => 'required|exists:customers,id',
+            'branch_id' => 'required|exists:branches,id',
         ]);
 
-        Complaint::create($request->all());
+        Complaint::create([
+            'title' => $request->title,
+            'message' => $request->message,
+            'reviewed' => $request->reviewed ?? false,
+            'customer_id' => $request->customer_id,
+            'branch_id' => $request->branch_id,
+        ]);
 
-        return redirect()->route('complaints.index')->with('success', 'Complaint created successfully');
+        return redirect()->route('complaints.index')->with('success', 'Complaint created successfully.');
+
     }
 
     /**

@@ -21,16 +21,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-    Route::resource('customers', CustomerController::class);
-    Route::resource('managers', ManagerController::class);
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('branches', BranchController::class);
+    Route::resource('managers', ManagerController::class);
+    Route::resource('customers', CustomerController::class);
     Route::resource('complaints', ComplaintController::class);
 });
 
-Route::get('/sendTest', function () {
-    Mail::to('hulk@marvel.com')->send(new NewCustomerCreated('Bruce Banner'));
-    dump('Email was sent!');
+Route::middleware(['auth', 'role:manager'])->group(function () {
+    Route::resource('customers', CustomerController::class);
+});
+
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::resource('complaints', ComplaintController::class);
 });
 
 

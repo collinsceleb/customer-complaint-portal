@@ -1,57 +1,52 @@
 @extends('layouts.app')
 
-@section('title', 'Add Complaint')
+@section('title', 'Create Complaint')
 
 @section('content_header')
-<h1>Add Complaint</h1>
-@endsection
+<h1>Create Complaint</h1>
+@stop
 
 @section('content')
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ route('complaints.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="customer_id">Customer</label>
-                        <select name="customer_id" class="form-control" id="customer_id">
-                            @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="branch_id">Branch</label>
-                        <select name="branch_id" class="form-control" id="branch_id">
-                            @foreach($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <select name="category" class="form-control" id="category">
-                            <option value="Service">Service</option>
-                            <option value="Product">Product</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" class="form-control" id="description">{{ old('description') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" class="form-control" id="status">
-                            <option value="Pending">Pending</option>
-                            <option value="Reviewed">Reviewed</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Complaint</button>
-                </form>
+<div class="card">
+    <div class="card-body">
+        <form action="{{ route('complaints.store') }}" method="POST">
+            @csrf
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" class="form-control" required>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" class="form-control" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="customer_id">Customer</label>
+                <select name="customer_id" id="customer_id" class="form-control" required>
+                    @foreach($customers as $customer)
+                    <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="branch_id">Branch</label>
+                <select name="branch_id" id="branch_id" class="form-control" required>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewed">Reviewed</label>
+                <input type="checkbox" name="reviewed" id="reviewed" value="1">
+            </div>
+
+            <button type="submit" class="btn btn-success">Create Complaint</button>
+        </form>
     </div>
 </div>
-@endsection
+@stop

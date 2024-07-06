@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Branch;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,8 @@ class CustomerFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
+        $user->assignRole('customer');
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
@@ -28,7 +31,8 @@ class CustomerFactory extends Factory
             'city' => fake()->city(),
             'state' => fake()->state(),
             'profile_photo' => fake()->image('storage/app/public/profile_photo', 100, 100, null, false),
-            'branch_id' => Branch::factory(),
+            'branch_id' => Branch::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
         ];
     }
 }

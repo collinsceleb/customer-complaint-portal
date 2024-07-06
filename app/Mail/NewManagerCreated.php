@@ -2,25 +2,26 @@
 
 namespace App\Mail;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class NewCustomerCreated extends Mailable
+class NewManagerCreated extends Mailable
 {
-    use Queueable, SerializesModels;
-    protected $customer;
+    use Queueable, SerializesModels, InteractsWithQueue;
+    protected $user;
     protected $password;
     /**
      * Create a new message instance.
      */
-    public function __construct(Customer $customer, $password)
+    public function __construct(User $user, $password)
     {
-        $this->customer = $customer;
+        $this->user = $user;
         $this->password = $password;
     }
 
@@ -29,7 +30,7 @@ class NewCustomerCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welocome to our service - New Customer Created')->view('emails.new_customer_created')->with(['customer' => $this->customer, 'password' => $this->password]);
+        return $this->subject('Your Manager Account has been Created')->view('emails.new_manager_created')->with(['user' => $this->user, 'password' => $this->password]);
     }
 
     /**
@@ -38,7 +39,7 @@ class NewCustomerCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welocome to our service - New Customer Created',
+            subject: 'Your Manager Account has been Created',
         );
     }
 
@@ -48,7 +49,7 @@ class NewCustomerCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'new_customer_created',
+            view: 'emails.new_manager_created',
         );
     }
 

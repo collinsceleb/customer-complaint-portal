@@ -10,9 +10,9 @@ class Branch extends Model
     use HasFactory;
     protected $fillable = ['name', 'address', 'city', 'state', 'phone', 'email'];
 
-    public function managers()
+    public function manager()
     {
-        return $this->hasMany(Manager::class);
+        return $this->hasOne(Manager::class);
     }
 
     public function customers()

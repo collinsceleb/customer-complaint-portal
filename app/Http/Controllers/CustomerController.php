@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Jobs\CustomerCreatedEmailJob;
 use App\Models\Branch;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -43,17 +46,32 @@ class CustomerController extends Controller
             'state' => 'required|string|max:255',
             'profile_photo' => 'sometimes|image|max:2048'
         ]);
+        $password = Str::password(10, true, true, true, false);
+
+        $user = User::create([
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($password),
+        ]);
+        $user->assignRole('customer');
 
         if ($request->hasFile('profile_photo')) {
-            // $file = $request->file('profile_photo');
-            // $filename = time() . '_' . $file->getClientOriginalName();
-            // $file->move(public_path('images'), $filename);
-            // $data['profile_photo'] = $filename;
             $data['profile_photo'] = $request->file('profile_photo')->store('profile_photo', 'public');
         }
-        $data = $request->all();
-        $customer = Customer::create($data);
-        CustomerCreatedEmailJob::dispatch($customer);
+        $customer = new Customer([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'branch_id' => $request->branch_id,
+            'user_id' => $user->id,
+        ]);
+        $customer->save();
+        CustomerCreatedEmailJob::dispatch($customer, $password);
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
@@ -70,6 +88,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        $customer = Customer::findOrFail($customer->id);
         $branches = Branch::all();
         return view('customers.edit', compact('customer', 'branches'));
     }

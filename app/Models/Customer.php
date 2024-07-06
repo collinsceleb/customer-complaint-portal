@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-    protected $fillable = ['first_name', 'last_name', 'branch_id', 'phone', 'email', 'address', 'city', 'state', 'profile_photo'];
+    protected $fillable = ['first_name', 'last_name', 'branch_id', 'user_id', 'phone', 'email', 'address', 'city', 'state', 'profile_photo'];
 
     public function branch() {
         return $this->belongsTo(Branch::class);
@@ -16,5 +16,8 @@ class Customer extends Model
 
     public function complaints() {
         return $this->hasMany(Complaint::class);
+    }
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

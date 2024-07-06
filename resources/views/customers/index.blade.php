@@ -18,9 +18,10 @@
         <thead>
             <tr>
                 <th>Full Name</th>
+                <th>Full Address</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Branch</th>
+                <th>No of Complaints</th>
                 <th>Profile Photo</th>
                 <th>Actions</th>
             </tr>
@@ -29,12 +30,13 @@
             @foreach($customers as $customer)
             <tr>
                 <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
+                <td>{{ $customer->address }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->phone }}</td>
-                <td>{{ $customer->branch->name }}</td>
+                <td>{{ $customer->complaints->count() }}</td>
                 <td>
                     @if($customer->profile_photo)
-                    <img src="{{ $customer->profile_photo }}" alt="Profile Photo" style="width: 50px; height: 50px;">
+                    <img src="{{ $customer->profile_photo }}" alt="Profile Picture" style="width: 100px; height: 100px;">
                     @endif
                 </td>
                 <td>

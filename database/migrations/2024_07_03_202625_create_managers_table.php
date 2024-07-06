@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('branch_id');
             $table->string('phone');
-            $table->foreignId('branch_id')->constrained()->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Customer</th>
+                <th>Made By</th>
                 <th>Branch</th>
-                <th>Category</th>
-                <th>Description</th>
+                <th>Title</th>
+                <th>Message</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -30,9 +30,9 @@
             <tr>
                 <td>{{ $complaint->customer->first_name }} {{ $complaint->customer->last_name }}</td>
                 <td>{{ $complaint->branch->name }}</td>
-                <td>{{ $complaint->category }}</td>
-                <td>{{ $complaint->description }}</td>
-                <td>{{ $complaint->status }}</td>
+                <td>{{ $complaint->title }}</td>
+                <td>{{ $complaint->message }}</td>
+                <td>{{ $complaint->reviewed }}</td>
                 <td>
                     <a href="{{ route('complaints.edit', $complaint->id) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('complaints.destroy', $complaint->id) }}" method="POST" style="display:inline-block;">

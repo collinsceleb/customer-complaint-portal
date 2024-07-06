@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Mail\NewCustomerCreated;
-use App\Models\Customer;
+use App\Mail\NewManagerCreated;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,19 +11,17 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class CustomerCreatedEmailJob implements ShouldQueue
+class ManagerCreatedEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $customer;
+    protected $user;
     protected $password;
-
-
     /**
      * Create a new job instance.
      */
-    public function __construct(Customer $customer, $password)
+    public function __construct(User $user, $password)
     {
-        $this->customer = $customer;
+        $this->user = $user;
         $this->password = $password;
     }
 
@@ -32,6 +30,6 @@ class CustomerCreatedEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->customer->email)->send(new NewCustomerCreated($this->customer, $this->password));
+        Mail::to($this->user->email)->send(new NewManagerCreated($this->user, $this->password));
     }
 }
