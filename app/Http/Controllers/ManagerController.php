@@ -6,19 +6,37 @@ use App\Jobs\ManagerCreatedEmailJob;
 use App\Models\Branch;
 use App\Models\Manager;
 use App\Models\User;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class ManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $managers = Manager::with('branch')->paginate(10);
-        return view('managers.index', compact('managers'));
+        if ($request->ajax()) {
+            $managers = Manager::with('branch')->select('managers.*');
+            return DataTables::of($managers)
+                ->addColumn('full_name', function ($manager) {
+                    return $manager->first_name . ' ' . $manager->last_name;
+                })
+                ->addColumn('branch', function ($manager) {
+                    return $manager->branch->name;
+                })
+                ->addColumn('phone', function ($manager) {
+                    return $manager->phone;
+                })
+                ->addColumn('actions', function ($manager) {
+                    return view('partials.actions', ['model' => $manager, 'route' => 'managers']);
+                })
+                ->make(true);
+        }
+        return view('managers.index');
     }
 
     /**
