@@ -9,16 +9,38 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::with('branch')->paginate(10);
-        return view('customers.index', compact('customers'));
+        if ($request->ajax()) {
+            $customers = Customer::with('branch', 'user', 'complaints')->select('customers.*');
+
+            return DataTables::of($customers)
+                ->addColumn('full_name', function ($customer) {
+                    return $customer->user->name;
+                })
+                ->addColumn('full_address', function ($customer) {
+                    return "{$customer->address}, {$customer->city}, {$customer->state}";
+                })
+                ->addColumn('complaints_count', function ($customer) {
+                    return $customer->complaints->count();
+                })
+                ->addColumn('photo', function ($customer) {
+                    return '<img src="' . asset('storage/profile_photo/' . $customer->profile_photo) . '" width="100" height="100">';
+                })
+                ->addColumn('actions', function ($customer) {
+                    return view('partials.actions', ['model' => $customer, 'route' => 'customers']);
+                })
+                ->rawColumns(['photo', 'actions'])
+                ->make(true);
+        }
+        return view('customers.index');
     }
 
     /**
