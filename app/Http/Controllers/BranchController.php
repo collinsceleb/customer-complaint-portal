@@ -4,16 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 class BranchController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $branches = Branch::with('customers', 'complaints')->paginate(10);
-        return view('branches.index', compact('branches'));
+        if ($request->ajax()) {
+            $data = Branch::with('manager.user','customers', 'complaints')->select('branches.*');
+            return DataTables::of($data)
+                ->addColumn('manager_name', function ($branch) {
+                    return $branch->manager ? $branch->manager->user->name : 'N/A';
+                })
+                ->addColumn('customers_count', function ($branch) {
+                    return $branch->customers->count();
+                })
+                ->addColumn('complaints_count', function ($branch) {
+                    return $branch->complaints->count();
+                })
+                ->addColumn('location', function ($branch) {
+                    return $branch->city . ', ' . $branch->state;
+                })
+                ->addColumn('actions', function ($branch) {
+                    return view('partials.actions', ['model' => $branch, 'route' => 'branches']);
+                })
+                ->make(true);
+        }
+
+        return view('branches.index');
     }
 
     /**
