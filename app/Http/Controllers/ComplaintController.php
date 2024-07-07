@@ -6,16 +6,40 @@ use App\Models\Branch;
 use App\Models\Complaint;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ComplaintController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $complaints = Complaint::with(['customer', 'branch'])->paginate(10);
-        return view('complaints.index', compact('complaints'));
+        if ($request->ajax()) {
+            $complaints = Complaint::with('customer', 'branch')->select('complaints.*');
+
+            return DataTables::of($complaints)
+            ->addColumn('customer_name', function ($complaint) {
+                return $complaint->customer->user->name;
+            })
+            ->addColumn('branch_name', function ($complaint) {
+                return $complaint->branch->name;
+            })
+            ->addColumn('message', function ($complaint) {
+                return $complaint->message;
+            })
+            ->addColumn('title', function ($complaint) {
+                    return $complaint->title;
+                })
+            ->addColumn('status', function ($complaint) {
+                return $complaint->reviewed ? 'Reviewed' : 'Pending';
+            })
+            ->addColumn('actions', function ($complaint) {
+                return view('partials.actions', ['model' => $complaint, 'route' => 'complaints']);
+            })
+            ->make(true);
+        }
+        return view('complaints.index');
     }
 
     /**
